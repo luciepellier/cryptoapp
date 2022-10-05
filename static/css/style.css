@@ -1,0 +1,29 @@
+body {
+    font-family: 'roboto';
+    font-weight: 400;
+    background: #100f0f;
+    color: #efefef;
+    font-size: 1.2em;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    text-align: center;
+}
+
+img {
+    margin-top: 20px;
+}
+
+input[type=submit] {
+    width: 50%;
+    background-color: darkgrey;
+    color:#100f0f;
+    margin: auto;
+    padding: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+

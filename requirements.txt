@@ -1,2 +1,4 @@
 python-coinmarketcap
 sqlite-orm
+datetime
+requests

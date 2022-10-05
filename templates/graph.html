@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='{{ url_for("static", filename="css/style.css") }}'>
-    <!--- <script src='main.js'></script> -->
-    <title>Mon solde</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block body %}
+<div class="nav"></div>
+
+<div class="content">
+    <img src="" alt="" class="icon">
     <h1>{{ title }}</h1> 
-    <p>{{ message }}</p>
-</body>
-</html>
+    <p>Description</p>
+    <form action="">
+        <input type="submit" value="Modifier">
+    </form>
+</div>
+
+{% endblock %}
