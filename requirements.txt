@@ -1,4 +1,4 @@
 python-coinmarketcap
-sqlite-orm
 datetime
-requests
+flask-sqlalchemy
+flask-wtf

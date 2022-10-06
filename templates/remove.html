@@ -2,12 +2,20 @@
 {% block body %}
 <div class="nav"></div>
 
+<div class="nav"></div>
+
 <div class="content">
-    <img src="" alt="" class="icon">
+    
     <h1>{{ title }}</h1> 
-    <p>Description</p>
-    <form action="">
-        <input type="submit" value="Valider">
+    
+    <form method="POST">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+        <br>
+        {{ form.quantity.label(class="form-label") }}
+        {{ form.quantity(class="form-control") }}
+        <br/>
+        {{ form.submit(class="form-submit") }}
     </form>
 </div>
 

@@ -1,27 +1,34 @@
 from flask import Flask, render_template
-from models import models
+# from flask_migrate import Migrate
+from config import SECRET_KEY
+from controllers.controllers import AddCrypto
 
+# instance flask
 crypto_app = Flask(__name__)
 
-# cryptocurrencies_list = [
-#     {"cryptocurrency": "Bitcoin", "value": 0.123},
-#     {"cryptocurrency": "Ethereum", "value": 1.879},
-#     {"cryptocurrency": "Ripple", "value": 1.234}
-# ]
+# Add database
+crypto_app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite3:///active_cryptos.db"
 
-cryptos = models.Cryptos 
+# secret key CSRF
+crypto_app.config['SECRET_KEY'] = SECRET_KEY
 
 @crypto_app.route("/")	
 def homepage():
     return render_template("home.html", title="CryptoApp")
 
-@crypto_app.route("/ajouter")	
-def add():
-    return render_template("add.html", title="Ajouter", cryptos = cryptos)
+@crypto_app.route("/ajouter", methods=["GET","POST"])	
+def name():
+    name = None
+    form = AddCrypto()
+    # validate form with the first data entry
+    if form.validate_on_submit():
+        name = form.name.data
+        form.name.data = ""
+    return render_template("add.html", title="Ajouter", name = name, form = form)
 
 @crypto_app.route("/supprimer")	
 def remove():
-    return render_template("remove.html", title="Supprimer", cryptos = cryptos)
+    return render_template("remove.html", title="Supprimer")
 
 @crypto_app.route("/solde")	
 def graph():
