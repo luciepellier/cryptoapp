@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 # initialize db
-db = SQLAlchemy(crypto_app)
+db = SQLAlchemy()
 
 conn = sqlite3.connect('active_cryptos.db')
 
