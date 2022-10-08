@@ -7,11 +7,10 @@ db = SQLAlchemy()
 
 conn = sqlite3.connect('active_cryptos.db')
 
-# print("Opened database successfully")
+print("Opened database successfully")
 
 # create a cursor
 c = conn.cursor()
-
 
 # Create a Crypto db model
 class Cryptos(db.Model):
@@ -24,9 +23,8 @@ conn.commit()
 
 conn.close()
 
-# print("Closed database successfully")
+print("Closed database successfully")
 
 # method to represent the class object as a string
 def __repr__(self):
     return "<Name %r>" % self.name
-
