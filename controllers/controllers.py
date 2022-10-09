@@ -89,19 +89,20 @@ def get_xrp_change():
 print(get_xrp_change())
 
 # Create AddCrypto form Class
-class AddCrypto(FlaskForm):
+class AddForm(FlaskForm):
     name = SelectField("Sélectionner une crypto", choices=[("BTC", "Bitcoin"),("ETH", "Etheureum"),("XRP", "Ripple")], coerce=str, validators=[DataRequired()])
     quantity = FloatField("Quantité", validators=[DataRequired()])
     cost = FloatField("Prix d'achat", validators=[DataRequired()])
     submit = SubmitField("Ajouter")
 
 # Add Crypto from the form to the db
-# def AddCrypto():
+# def add_crypto():
+
 
 
 
 # Create RemoveCrypto Form Class
-class RemoveCrypto(FlaskForm):
+class RemoveForm(FlaskForm):
     name = SelectField("Sélectionner une crypto", choices=[("BTC", "Bitcoin"),("ETH", "Etheureum"),("XRP", "Ripple")], coerce=str, validators=[DataRequired()])
     quantity = FloatField("Quantité", validators=[DataRequired()])
     submit = SubmitField("Valider")

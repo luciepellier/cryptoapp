@@ -1,7 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash
 # from flask_migrate import Migrate
-from .config import SECRET_KEY
-from .controllers.controllers import AddCrypto
+from config import SECRET_KEY
+from controllers.controllers import AddForm, RemoveForm
+from models.models import db, Cryptos
 
 # instance flask
 app = Flask(__name__)
@@ -17,17 +18,34 @@ def homepage():
     return render_template("home.html", title="Crypto Tracker")
 
 @app.route("/ajouter", methods=["GET","POST"])	
-def name():
+def add_crypto():
     name = None
-    form = AddCrypto()
-    # validate form with the first data entry
+    quantity = None
+    cost = None
+    form = AddForm()
+    # validate on submit
     if form.validate_on_submit():
-        name = form.name.data
-        form.name.data = ""
-    return render_template("add.html", title="Ajouter", name = name, form = form)
+        crypto = Cryptos.query.filter_by(name=form.name.data).first()
+        crypto = Cryptos(name=form.name.data, quantity=form.quantity.data, cost=form.cost.data)
+        db.session.add(crypto)
+        db.session.commit()
+    name = form.name.data
+    form.name.data = ""
+    form.quantity.data = ""
+    form.cost.data = ""
+    flash("Crypto added successfully!")
+
+    # my_cryptos = Cryptos.query.order_by(Cryptos.date_added)
+
+    return render_template("add.html", title="Ajouter", form = form, 
+    name=name, 
+    quantity=quantity, 
+    cost=cost
+    #, my_cryptos=my_cryptos
+    )
 
 @app.route("/supprimer")	
-def remove():
+def remove_crypto():
     return render_template("remove.html", title="Supprimer")
 
 @app.route("/solde")	

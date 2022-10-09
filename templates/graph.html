@@ -3,12 +3,18 @@
 <div class="nav"></div>
 
 <div class="content">
-    <img src="" alt="" class="icon">
-    <h1>{{ title }}</h1> 
-    <p>Description</p>
-    <form action="">
-        <input type="submit" value="Modifier">
-    </form>
 </div>
+
+<br><br><br>
+
+<table class="table">
+{% for my_crypto in my_cryptos %}
+    <tr>
+        <td>
+            {{ our_crypto.name }} - {{ our_crypto.quantity }} - {{ our_crypto.cost }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
 
 {% endblock %}

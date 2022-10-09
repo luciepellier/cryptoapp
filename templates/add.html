@@ -1,24 +1,35 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class="nav"></div>
+<div class="nav">
+    <h1>Crypto Tracker</h1>
+    <ul>
+        <li class="nav-item">
+            <a class="nav-link" href=""{{ url_for("remove_crypto") }}><i class="fa-solid fa-pen"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href=""{{ url_for("add_crypto") }}><i class="fa-solid fa-plus"></i></a>
+        </li>
+    </ul>
+</div>
 
 <div class="content">
     
     <h1>{{ title }}</h1> 
-    
-    <form method="POST">
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
-        <br>
-        {{ form.quantity.label(class="form-label") }}
-        {{ form.quantity(class="form-control") }}
-        <br>
-        {{ form.cost.label(class="form-label") }}
-        {{ form.cost(class="form-control") }}
-        <br/>
-        {{ form.submit(class="form-submit") }}
-    </form>
+    <div class="form">
+        <form method="POST">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+            <br>
+            {{ form.quantity.label(class="form-label") }}
+            {{ form.quantity(class="form-control") }}
+            <br>
+            {{ form.cost.label(class="form-label") }}
+            {{ form.cost(class="form-control") }}
+            <br/>
+            {{ form.submit(class="form-submit") }}
+        </form>
+    </div>      
 </div>
 
 {% endblock %}
