@@ -1,13 +1,13 @@
+from app import db
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 # initialize db
-db = SQLAlchemy()
 
 conn = sqlite3.connect('active_cryptos.db')
 
-print("Opened database successfully")
+# print("Opened database successfully")
 
 # create a cursor
 c = conn.cursor()
@@ -23,7 +23,7 @@ conn.commit()
 
 conn.close()
 
-print("Closed database successfully")
+# print("Closed database successfully")
 
 # method to represent the class object as a string
 def __repr__(self):

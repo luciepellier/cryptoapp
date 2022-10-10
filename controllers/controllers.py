@@ -43,50 +43,35 @@ def printCoinData():
       print(symbol, "-", name, " : ", f"{price:.2f}", "€", " / change last 24h: ", f"{change:.2f}", "%")
 printCoinData()
 
-# Get 3 cryptos current prices:
-def get_btc_price():
-  for x in data["data"]:
-    if x["id"] == 1:
-      price = float(x["quote"]["EUR"]["price"])
-      return price
-print(get_btc_price())
+# Def coin ID dict
+coin_id_dict = {
+  "eth": 1027,
+  "btc": 1,
+  "xrp": 52,
+}
 
-def get_eth_price():
-  for x in data["data"]:
-    if x["id"] == 1027:
-      price = float(x["quote"]["EUR"]["price"])
-      return price
-print(get_eth_price())
+# Get coins current prices:
+def get_coin_price(coin):
+  coin_id = coin_id_dict.get(coin, False)
+  if (coin_id):
+    for x in data["data"]:
+      if x["id"] == coin_id:
+        price = float(x["quote"]["EUR"]["price"])
+        return price
+  return False
 
-def get_xrp_price():
-  for x in data["data"]:
-    if x["id"] == 52:
-      price = float(x["quote"]["EUR"]["price"])
-      return price
-print(get_xrp_price())
+# Get coin changes last 24h
+def get_coin_change(coin):
+  coin_id = coin_id_dict.get(coin, False)
+  if (coin_id):
+    for x in data["data"]:
+      if x["id"] == coin_id:
+        change = float(x["quote"]["EUR"]["percent_change_24h"])
+        return change
+  return False
 
-# Get 3 cryptos changes last 24h
-
-def get_btc_change():
-  for x in data["data"]:
-    if x["id"] == 1:
-      price = float(x["quote"]["EUR"]["percent_change_24h"])
-      return price
-print(get_btc_change())
-
-def get_eth_change():
-  for x in data["data"]:
-    if x["id"] == 1027:
-      price = float(x["quote"]["EUR"]["percent_change_24h"])
-      return price
-print(get_eth_change())
-
-def get_xrp_change():
-  for x in data["data"]:
-    if x["id"] == 52:
-      price = float(x["quote"]["EUR"]["percent_change_24h"])
-      return price
-print(get_xrp_change())
+print(get_coin_price('1'))
+print(get_coin_change('1'))
 
 # Create AddCrypto form Class
 class AddForm(FlaskForm):
