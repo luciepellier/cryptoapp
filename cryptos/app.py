@@ -1,20 +1,24 @@
 from flask import Flask, render_template, flash
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import MetaData, create_engine
+
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
-from .controllers.controllers import AddForm, RemoveForm
-from .models import db, Cryptos
+from .controllers import AddForm, RemoveForm
 
 # instance flask
 app = Flask(__name__)
 
 # Add database
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite3:///active_cryptos.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///active_cryptos.db"
 
 # secret key CSRF
 app.config['SECRET_KEY'] = SECRET_KEY
 
 # Init DB
-db = SQLAlchemy()
+engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
+metadata = MetaData(bind=engine)
+db = SQLAlchemy(app)
 
 @app.route("/")	
 def homepage():

@@ -4,8 +4,6 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 import pprint 
 
-from flask_sqlalchemy import SQLAlchemy
-
 from datetime import datetime
 
 from flask_wtf import FlaskForm

@@ -1,16 +1,16 @@
-from app import db
+from ..app import db, metadata
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 # initialize db
 
-conn = sqlite3.connect('active_cryptos.db')
+# conn = sqlite3.connect('active_cryptos.db')
 
-# print("Opened database successfully")
+# # print("Opened database successfully")
 
-# create a cursor
-c = conn.cursor()
+# # create a cursor
+# c = conn.cursor()
 
 # Create a Crypto db model
 class Cryptos(db.Model):
@@ -19,9 +19,9 @@ class Cryptos(db.Model):
     cost = db.Column(db.Float, nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
-conn.commit()
+# conn.commit()
 
-conn.close()
+# conn.close()
 
 # print("Closed database successfully")
 
