@@ -31,16 +31,6 @@ try:
 except (ConnectionError, Timeout, TooManyRedirects) as e:
   print(e)
 
-def printCoinData():  
-  for x in data["data"]:
-    if x["symbol"] == "BTC" or x["symbol"] == "ETH" or x["symbol"] == "XRP":
-      symbol = str(x["symbol"])
-      name = str(x["name"])
-      price = float(x["quote"]["EUR"]["price"])
-      change = float(x["quote"]["EUR"]["percent_change_24h"])
-      print(symbol, "-", name, " : ", f"{price:.2f}", "€", " / change last 24h: ", f"{change:.2f}", "%")
-printCoinData()
-
 # Def coin ID dict
 coin_id_dict = {
   "eth": 1027,
@@ -67,9 +57,6 @@ def get_coin_change(coin):
         change = float(x["quote"]["EUR"]["percent_change_24h"])
         return change
   return False
-
-print(get_coin_price('1'))
-print(get_coin_change('1'))
 
 # Create AddCrypto form Class
 class AddForm(FlaskForm):
