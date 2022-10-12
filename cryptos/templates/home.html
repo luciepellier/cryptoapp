@@ -12,24 +12,48 @@
 
 {% extends "base.html" %}
 {% block body %}
-<div class="nav">
-    <h1>{{ title }}</h1>
-</div>
 
-<div class="content">
+<div class="main-container">
+    <header class="main-header">
+        <div class="nav">
+        <h1>Crypto Tracker</h1>
+            <a class="nav-link" href="/ajouter"><i class="fa-solid fa-plus"></i></a>
+            <a class="nav-link" href="/supprimer"><i class="fa-solid fa-pen"></i></a>
+        </div>
+    </header>
+    
+    <div class="content">
+        <section class="profit">
 
-    <div class="profit">
-    <a href=""></a>
+        </section>
+
+        <section class="coins-index">
+            <div class="item">
+                <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/1.png" alt="Bitcoin">
+                <span>BTC (Bitcoin)</span>
+                <div class="evolution"></div>
+            </div>
+            <div class="item">
+                <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/1027.png" alt="Ethereum">
+                <span>ETH (Ethereum)</span>
+                <div class="evolution"></div>
+            </div>
+            <div class="item">
+                <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/52.png" alt="XRP">
+                <span>XRP (Ripple)</span>
+                <div class="evolution"></div>
+            </div>
+        </section>
+
+        <!-- {% for post in db %}
+        <div class="index">
+            <img src="" alt="">
+            <span></span>
+            <div>Évolution %</div>
+        </div>
+        {% endfor %} -->
+
+
     </div>
-
-    {% for post in db %}
-    <div class="index">
-        <img src="" alt="">
-        <span></span>
-        <div>Évolution %</div>
-    </div>
-{% endfor %}
-
 </div>
-
 {% endblock %}

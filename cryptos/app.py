@@ -5,6 +5,7 @@ from sqlalchemy import MetaData, create_engine
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
 from .controllers import AddForm, RemoveForm
+from .models import Cryptos
 
 # instance flask
 app = Flask(__name__)

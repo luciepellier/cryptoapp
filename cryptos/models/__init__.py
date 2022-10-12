@@ -6,13 +6,19 @@ from sqlalchemy import Column, String, Float, DateTime, create_engine
 
 Base = declarative_base()
 
-# Create a Crypto db model
+# Create a Cryptos Base
 class Cryptos(Base):
     __tablename__ = "cryptos"
     name = Column(String(55), primary_key=True, nullable=False)
     quantity = Column(Float, nullable=False)
     cost = Column(Float, nullable=False)
     date_added = Column(DateTime, default=datetime.utcnow)
+
+# method to represent the class object as a string
+def __repr__(self):
+    return "<Name %r>" % self.name
+
+# _________________________________________
 
 # Enter DB initial coins inversion
 cryptos = [
@@ -31,6 +37,3 @@ def add_cryptos():
 
 add_cryptos()
 
-# method to represent the class object as a string
-def __repr__(self):
-    return "<Name %r>" % self.name
