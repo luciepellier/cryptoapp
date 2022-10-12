@@ -1,29 +1,35 @@
-from ..app import db, metadata
-import sqlite3
+from ..app import db, engine
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy import Column, String, Float, DateTime, create_engine
 
-# initialize db
-
-# conn = sqlite3.connect('active_cryptos.db')
-
-# # print("Opened database successfully")
-
-# # create a cursor
-# c = conn.cursor()
+Base = declarative_base()
 
 # Create a Crypto db model
-class Cryptos(db.Model):
-    name = db.Column(db.String(55), primary_key=True, nullable=False)
-    quantity = db.Column(db.Float, nullable=False)
-    cost = db.Column(db.Float, nullable=False)
-    date_added = db.Column(db.DateTime, default=datetime.utcnow)
+class Cryptos(Base):
+    __tablename__ = "cryptos"
+    name = Column(String(55), primary_key=True, nullable=False)
+    quantity = Column(Float, nullable=False)
+    cost = Column(Float, nullable=False)
+    date_added = Column(DateTime, default=datetime.utcnow)
 
-# conn.commit()
+# Enter DB initial coins inversion
+cryptos = [
+    Cryptos(name = "Bitcoin", quantity=0.0051, cost=100.50),
+    Cryptos(name = "Ethereum", quantity=0.22, cost=300.00),
+    Cryptos(name = "XRP", quantity=0.22, cost=300.00)
+]
 
-# conn.close()
+engine = sessionmaker(bind=create_engine("sqlite:///active_cryptos.db"))
 
-# print("Closed database successfully")
+def add_cryptos():
+    with engine() as session:
+        for crypto in cryptos:
+            session.add(cryptos)
+        session.commit()
+
+add_cryptos()
 
 # method to represent the class object as a string
 def __repr__(self):

@@ -2,12 +2,11 @@ from colorlog import info
 from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
-import pprint 
 
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, DecimalField, FloatField, SubmitField
+from wtforms import SelectField, FloatField, SubmitField
 from wtforms.validators import DataRequired
 
 # API coinmarketcap connexion
@@ -33,10 +32,20 @@ except (ConnectionError, Timeout, TooManyRedirects) as e:
 
 # Def coin ID dict
 coin_id_dict = {
-  "eth": 1027,
-  "btc": 1,
-  "xrp": 52,
+  "ETH": 1027,
+  "BTC": 1,
+  "XRP": 52,
 }
+
+# Get coin names:
+def get_coin_name(coin):
+  coin_id = coin_id_dict.get(coin, False)
+  if (coin_id):
+    for x in data["data"]:
+      if x["id"] == coin_id:
+        name = str(x["name"])
+        return name
+  return False
 
 # Get coins current prices:
 def get_coin_price(coin):
@@ -64,11 +73,6 @@ class AddForm(FlaskForm):
     quantity = FloatField("Quantité", validators=[DataRequired()])
     cost = FloatField("Prix d'achat", validators=[DataRequired()])
     submit = SubmitField("Ajouter")
-
-# Add Crypto from the form to the db
-# def add_crypto():
-
-
 
 
 # Create RemoveCrypto Form Class
