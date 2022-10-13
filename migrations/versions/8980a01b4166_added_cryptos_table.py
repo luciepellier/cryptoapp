@@ -1,8 +1,8 @@
 """Added Cryptos table
 
-Revision ID: d3bf16c13137
+Revision ID: 8980a01b4166
 Revises: 
-Create Date: 2022-10-11 10:46:34.168988
+Create Date: 2022-10-13 16:42:00.155286
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd3bf16c13137'
+revision = '8980a01b4166'
 down_revision = None
 branch_labels = None
 depends_on = None

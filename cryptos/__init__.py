@@ -1,1 +1,1 @@
-from .app import app,db
+# from cryptos import app, db

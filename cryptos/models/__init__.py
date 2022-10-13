@@ -1,8 +1,8 @@
-from ..app import db, engine
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import Column, String, Float, DateTime, create_engine
+from ..app import db
 
 Base = declarative_base()
 
@@ -20,20 +20,24 @@ def __repr__(self):
 
 # _________________________________________
 
-# Enter DB initial coins inversion
-cryptos = [
-    Cryptos(name = "Bitcoin", quantity=0.0051, cost=100.50),
-    Cryptos(name = "Ethereum", quantity=0.22, cost=300.00),
-    Cryptos(name = "XRP", quantity=0.22, cost=300.00)
-]
+# # Enter DB initial coins inversion
+# cryptos = [
+#     Cryptos(name = "Bitcoin", quantity=0.0051, cost=100.50),
+#     Cryptos(name = "Ethereum", quantity=0.22, cost=300.00),
+#     Cryptos(name = "XRP", quantity=0.22, cost=300.00)
+# ]
 
-engine = sessionmaker(bind=create_engine("sqlite:///active_cryptos.db"))
+# engine = sessionmaker(bind=create_engine("sqlite:///active_cryptos.db"))
 
-def add_cryptos():
-    with engine() as session:
-        for crypto in cryptos:
-            session.add(cryptos)
-        session.commit()
 
-add_cryptos()
+# def add_cryptos():
+#     with engine() as session:
+#         for crypto in cryptos:
+#             session.add(cryptos)
+#         session.commit()
+
+# add_cryptos()
+
+# with engine() as session:
+#     session.add(Cryptos)
 

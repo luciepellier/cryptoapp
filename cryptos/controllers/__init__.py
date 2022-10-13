@@ -88,3 +88,17 @@ class RemoveForm(FlaskForm):
 # Get Total Cryptos sum of all cryptos added and removed in the db 
 # def TotalCryptos():
 
+def save_new_coin(name: str, quantity: float, cost: float):
+  from ..models import Cryptos
+  from ..app import db, engine, session
+  print(f"Adding coin {name.data} {quantity.data} {cost.data}")
+  
+  # crypto = Cryptos.query.filter_by(name=name.data).first()
+  # crypto = Cryptos(name=name.data, quantity=quantity.data, cost=cost.data)
+
+  with session() as session:
+    new_crypto = Cryptos(
+      name=name.data, quantity=quantity.data, cost=cost.data
+    )
+    session.add(new_crypto)
+    session.commit()
