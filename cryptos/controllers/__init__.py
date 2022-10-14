@@ -74,31 +74,37 @@ class AddForm(FlaskForm):
     cost = FloatField("Prix d'achat", validators=[DataRequired()])
     submit = SubmitField("Ajouter")
 
-
 # Create RemoveCrypto Form Class
 class RemoveForm(FlaskForm):
     name = SelectField("Sélectionner une crypto", choices=[("BTC", "Bitcoin"),("ETH", "Etheureum"),("XRP", "Ripple")], coerce=str, validators=[DataRequired()])
     quantity = FloatField("Quantité", validators=[DataRequired()])
+    cost = FloatField("Prix de vente", validators=[DataRequired()])
     submit = SubmitField("Valider")
 
-# Remove Crypto from the form to the db, get_btc_price get_eth_price or get_xrp_price 
-# to obtain and insert the current price in the db
-# def RemoveCrypto():
-
-# Get Total Cryptos sum of all cryptos added and removed in the db 
-# def TotalCryptos():
-
-def save_new_coin(name: str, quantity: float, cost: float):
+# Define Save coin function
+def save_coin(name: str, quantity: float, cost: float):
   from ..models import Cryptos
   from ..app import db, engine, session
-  print(f"Adding coin {name.data} {quantity.data} {cost.data}")
-  
-  # crypto = Cryptos.query.filter_by(name=name.data).first()
-  # crypto = Cryptos(name=name.data, quantity=quantity.data, cost=cost.data)
+  print(f"Crypto bought added {name.data} {quantity.data} {cost.data}")
 
   with session() as session:
     new_crypto = Cryptos(
       name=name.data, quantity=quantity.data, cost=cost.data
+    )
+    session.add(new_crypto)
+    session.commit()
+
+# Define Edit coin function
+def edit_coin(name: str, quantity: float, cost: float):
+  from ..models import Cryptos
+  from ..app import db, engine, session
+  print(f"Crypto sold added {name.data} {quantity.data} {cost.data}") 
+  #new_crypto = session.query(id)
+  #new_crypto.quantity = - new_crypto.quantity
+
+  with session() as session:
+    new_crypto = Cryptos(
+      name=name.data, quantity= quantity.data, cost= -cost.data
     )
     session.add(new_crypto)
     session.commit()
