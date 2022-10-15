@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
-from .controllers import AddForm, RemoveForm, save_coin, edit_coin
+from .controllers import AddForm, RemoveForm, save_coin, edit_coin, coin_id_dict, get_coin_name, get_coin_change 
 
 # instance flask
 # app = Flask(__name__, instance_path="/Users/luciepellier/Documents/Projects/CryptoApp")
@@ -34,7 +34,11 @@ def homepage():
     for i in result:
         profit = "%.2f" % round((sum(i)), 2)
         print(profit)
-    return render_template("home.html", title="Crypto Tracker", profit=profit)
+        btc = "%.2f" % round(get_coin_change("BTC"), 2)
+        eth = "%.2f" % round(get_coin_change("ETH"), 2)
+        xrp = "%.2f" % round(get_coin_change("XRP"), 2)
+    return render_template("home.html", title="Crypto Tracker", profit=profit, 
+    btc=btc, eth=eth, xrp=xrp)
 
 @app.route("/ajouter", methods=["GET","POST"])	
 def add_crypto():

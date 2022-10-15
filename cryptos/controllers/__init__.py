@@ -19,7 +19,7 @@ parameters = {
 }
 headers = {
   "Accepts": "application/json",
-  "X-CMC_PRO_API_KEY": "6dbc77f7-ff71-432a-9061-8024cfc58b72",
+  "X-CMC_PRO_API_KEY": "0a82fc41-65b8-4902-81da-127a1adbf485",
 } 
 session = Session()
 session.headers.update(headers) 
@@ -36,8 +36,7 @@ coin_id_dict = {
   "BTC": 1,
   "XRP": 52,
 }
-
-# Get coin names:
+# Get coin name:
 def get_coin_name(coin):
   coin_id = coin_id_dict.get(coin, False)
   if (coin_id):
@@ -108,3 +107,4 @@ def edit_coin(name: str, quantity: float, cost: float):
     )
     session.add(new_crypto)
     session.commit()
+
