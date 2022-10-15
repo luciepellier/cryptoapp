@@ -6,7 +6,6 @@ from sqlalchemy.orm import sessionmaker
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
 from .controllers import AddForm, RemoveForm, save_coin, edit_coin
-# from .models import Cryptos
 
 # instance flask
 # app = Flask(__name__, instance_path="/Users/luciepellier/Documents/Projects/CryptoApp")
@@ -29,20 +28,20 @@ with app.app_context():
     # Per validar les taules disponibles
     print("Current tables", engine.table_names())
 
-@app.route("/")	
+@app.route("/", methods=["GET"])	
 def homepage():
-    # get Cryptos
-    return render_template("home.html", title="Crypto Tracker")
+    result = engine.execute("SELECT SUM (quantity * cost) FROM cryptos")
+    for i in result:
+        profit = "%.2f" % round((sum(i)), 2)
+        print(profit)
+    return render_template("home.html", title="Crypto Tracker", profit=profit)
 
 @app.route("/ajouter", methods=["GET","POST"])	
 def add_crypto():
-    # name = None
-    # quantity = None
-    # cost = None
     message = ""
     form = AddForm()
 
-    # Quan sigui un POST gestiona el save
+    # when POST manage save in DB
     if request.method == "POST":
         result = engine.execute("SELECT * FROM cryptos")
         print(result.fetchall())
@@ -59,14 +58,14 @@ def add_crypto():
         form.cost.data = ""
         # return redirect(url_for('add_crypto'))
 
-    return render_template("add.html", title="Ajouter", form = form, message=message)
+    return render_template("add.html", title="Ajouter", form = form, message = message)
 
 @app.route("/supprimer", methods=["GET","POST"])	
 def remove_crypto():
     message = ""
     form = RemoveForm()
 
-    # Quan sigui un POST gestiona el save
+    # when POST manage save in DB
     if request.method == "POST":
         result = engine.execute("SELECT * FROM cryptos")
         print(result.fetchall())

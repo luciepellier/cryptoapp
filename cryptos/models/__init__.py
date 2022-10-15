@@ -1,3 +1,4 @@
+from xml.sax.handler import property_declaration_handler
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -19,7 +20,8 @@ class Cryptos(Base):
     def __repr__(self):
         return f"<Crypto {self.name}>"
 
-    # property that displays total Profit 
-    @property
-    def profit(self):
-        return self.quantity * self.cost
+    # get total Profit 
+    # @property
+    # def get_profit(self):
+    #     return self.quantity * self.cost 
+    # print(get_profit())
