@@ -2,5 +2,7 @@ python-coinmarketcap
 datetime
 flask-sqlalchemy
 flask-wtf
+alembic
+pytest
 colorlog
 gunicorn
