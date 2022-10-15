@@ -6,3 +6,5 @@ alembic
 pytest
 colorlog
 gunicorn
+matplotlib
+numpy

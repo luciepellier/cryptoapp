@@ -8,20 +8,10 @@
     </header>
 
     <div class="content">
+    <h1>{{ title }}</h1> 
+    <img id="chart" src="{{ figure }}">
     </div>
     
 </div>
-
-<br><br><br>
-
-<table class="table">
-{% for my_crypto in my_cryptos %}
-    <tr>
-        <td>
-            {{ our_crypto.name }} - {{ our_crypto.quantity }} - {{ our_crypto.cost }}
-        </td>
-    </tr>
-{% endfor %}
-</table>
 
 {% endblock %}

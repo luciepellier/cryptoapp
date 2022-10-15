@@ -1,4 +1,6 @@
-from flask import Flask, render_template, flash, request, redirect, url_for
+from sqlite3 import connect
+import sqlite3
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker
@@ -6,6 +8,13 @@ from sqlalchemy.orm import sessionmaker
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
 from .controllers import AddForm, RemoveForm, save_coin, edit_coin, coin_id_dict, get_coin_name, get_coin_change 
+
+# data visualization
+import pandas as pd
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from io import BytesIO
+import base64
 
 # instance flask
 # app = Flask(__name__, instance_path="/Users/luciepellier/Documents/Projects/CryptoApp")
@@ -33,7 +42,6 @@ def homepage():
     result = engine.execute("SELECT SUM (quantity * cost) FROM cryptos")
     for i in result:
         profit = "%.2f" % round((sum(i)), 2)
-        print(profit)
         btc = "%.2f" % round(get_coin_change("BTC"), 2)
         eth = "%.2f" % round(get_coin_change("ETH"), 2)
         xrp = "%.2f" % round(get_coin_change("XRP"), 2)
@@ -95,9 +103,24 @@ def remove_crypto():
 
     return render_template("remove.html", title="Supprimer", form=form, message=message)
 
-@app.route("/solde")	
-def graph():
-    return render_template("graph.html", title="Solde")
+
+@app.route("/solde", methods=["GET"])	
+def profit_chart():
+    # Create Dataframe Pandas profit
+    conn = engine.connect()
+    data = pd.read_sql_query("SELECT date_added, (quantity * cost) FROM cryptos", conn)
+    df = pd.DataFrame(data, columns=["date_added","(quantity * cost)"])
+    # Generate the figure **without using pyplot**.
+    fig = Figure()
+    df = fig.subplots()
+    df.plot()    
+    # Save it to a temporary buffer.
+    buf = BytesIO()
+    fig.savefig(buf, format="png")
+    # Embed the result in the html output.
+    data = base64.b64encode(buf.getbuffer()).decode("ascii")
+    figure = f'data:image/png;base64,{data}'
+    return render_template("graph.html", title="Solde", figure=figure)
 
 if __name__ == "__main__":
     app.run(debug=True)

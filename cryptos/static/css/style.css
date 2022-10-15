@@ -54,10 +54,16 @@ body {
     margin-bottom: 25px;
 }
 
-img {
-    width: 20px;
+.icon {
+    height: 20px;
     vertical-align: middle;
     margin-right: 10px;
+}
+
+#chart {
+    width: 600px;
+    height: 400px;
+    text-align: center;
 }
 
 input[type=submit] {
@@ -70,5 +76,6 @@ input[type=submit] {
     cursor: pointer;
 }
 
-
-
+.chart {
+    background-color: #100f0f;
+}
