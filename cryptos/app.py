@@ -11,6 +11,9 @@ from .controllers import AddForm, RemoveForm, save_coin, edit_coin, coin_id_dict
 
 # data visualization
 import pandas as pd
+import datetime as dt
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from io import BytesIO
@@ -108,19 +111,39 @@ def remove_crypto():
 def profit_chart():
     # Create Dataframe Pandas profit
     conn = engine.connect()
-    data = pd.read_sql_query("SELECT date_added, (quantity * cost) FROM cryptos", conn)
-    df = pd.DataFrame(data, columns=["date_added","(quantity * cost)"])
+
+    historic = pd.read_sql_query("SELECT DATE(date_added) as date, quantity, cost, (quantity * cost) as amount FROM cryptos", conn)
+    historic_df = pd.DataFrame(historic)
+
+    totals_per_day = historic_df.groupby(['date']).sum().cumsum()
+
+    buff = BytesIO()
+    figure = totals_per_day[["amount"]].plot().get_figure()
+    figure.savefig(buff, format="png", transparent=True)
+    data = base64.b64encode(buff.getbuffer()).decode("ascii")
+    figure_base64 = f'data:image/png;base64,{data}'
+
+    return render_template("graph.html", title="Solde", figure=figure_base64)
+
+
+    # for row in historic_df.iterrows():
+    #     # print (row)
+    #     print (row[2])
+    #     # print (f"SELECT DATE(date_added) as date, SUM(quantity), SUM(cost), SUM((quantity * cost)) as amount FROM cryptos WHERE DATE(date_added) <= DATE({row['date']}) GROUP BY date")
+    #     totals_per_day = pd.read_sql_query(f"SELECT DATE(date_added) as date, SUM(quantity), SUM(cost), SUM((quantity * cost)) as amount FROM cryptos WHERE DATE(date_added) <= DATE({row['date_added']}) GROUP BY date", conn)
+    #     totals_df = pd.DataFrame(totals_per_day)
+    #     print (totals_df)
+
+
+    # x = [dt.datetime.strptime(d,'%Y-%m-%d %H:%M%S.%X').date() for d in dates]
+    #y = pd.read_sql_query("SELECT (quantity * cost) FROM cryptos", conn)
+    #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
+    #plt.gca().xaxis.set_major_locator(mdates.DayLocator())
+    #plt.plot(x,y)
+    #plt.gcf().autofmt_xdate()
     # Generate the figure **without using pyplot**.
-    fig = Figure()
-    df = fig.subplots()
-    df.plot()    
-    # Save it to a temporary buffer.
-    buf = BytesIO()
-    fig.savefig(buf, format="png")
-    # Embed the result in the html output.
-    data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    figure = f'data:image/png;base64,{data}'
-    return render_template("graph.html", title="Solde", figure=figure)
+
+    # import pudb; pu.db    
 
 if __name__ == "__main__":
     app.run(debug=True)

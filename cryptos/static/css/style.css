@@ -29,7 +29,6 @@ body {
     display: inline;
     float: right;
     color: #efefef;
-    font-weight: 400;
     padding-right: 20px;
 }
 
@@ -44,6 +43,11 @@ body {
     font-size: 2em;
     font-weight: 700;
     margin: 90px 20px;
+}
+
+.profit a {
+    text-decoration: none;
+    color: #efefef;
 }
 
 .change {

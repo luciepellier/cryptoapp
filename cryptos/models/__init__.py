@@ -15,6 +15,7 @@ class Cryptos(Base):
     quantity = Column(Float, nullable=False)
     cost = Column(Float, nullable=False)
     date_added = Column(DateTime, default=datetime.utcnow)
+    # total = Column(Float, nullable=False)
 
     # method to represent the class object as a string
     def __repr__(self):
