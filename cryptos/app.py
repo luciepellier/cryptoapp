@@ -2,6 +2,8 @@ from sqlite3 import connect
 import sqlite3
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from matplotlib import pyplot as plt
+import matplotlib
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -11,10 +13,6 @@ from .controllers import AddForm, RemoveForm, save_coin, edit_coin, coin_id_dict
 
 # data visualization
 import pandas as pd
-import datetime as dt
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from io import BytesIO
 import base64
@@ -92,14 +90,31 @@ def remove_crypto():
 def profit_chart():
     conn = engine.connect()
     # Create Dataframe Pandas
-    historic = pd.read_sql_query("SELECT DATE(date_added) as date, quantity, cost, (quantity * cost) as amount FROM cryptos", conn)
+    historic = pd.read_sql_query("SELECT DATE(date_added) as Date, quantity, cost, (quantity * cost) as Total_Investissements_Jour FROM cryptos", conn)
     historic_df = pd.DataFrame(historic)
     # Group dates per day and cumsum 
-    totals_per_day = historic_df.groupby(['date']).sum().cumsum()
-    # Save and display the plot
+    totals_per_day = historic_df.groupby(['Date']).sum().cumsum()
+    # Save and display the Pandas Plot
     buff = BytesIO()
-    figure = totals_per_day[["amount"]].plot().get_figure()
-    figure.savefig(buff, format="png", transparent=False)
+    figure = totals_per_day[["Total_Investissements_Jour"]].plot(kind="bar").get_figure()
+    plt.xlabel("Date")
+    plt.ylabel("Solde Total en €")
+    plt.style.use("dark_background")
+    plt.rcParams.update({
+    "lines.color": "white",
+    "patch.edgecolor": "white",
+    "text.color": "black",
+    "axes.facecolor": "white",
+    "axes.edgecolor": "lightgray",
+    "axes.labelcolor": "white",
+    "xtick.color": "white",
+    "ytick.color": "white",
+    "grid.color": "lightgray",
+    "figure.facecolor": "black",
+    "figure.edgecolor": "black",
+    "savefig.facecolor": "black",
+    "savefig.edgecolor": "black"})
+    figure.savefig(buff, format="png", transparent=True)
     data = base64.b64encode(buff.getbuffer()).decode("ascii")
     figure_base64 = f'data:image/png;base64,{data}'
 
