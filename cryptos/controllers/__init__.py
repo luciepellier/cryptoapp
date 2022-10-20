@@ -3,8 +3,6 @@ from requests import Request, Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 
-from datetime import datetime
-
 from flask_wtf import FlaskForm
 from wtforms import SelectField, FloatField, SubmitField
 from wtforms.validators import DataRequired
@@ -19,7 +17,7 @@ parameters = {
 }
 headers = {
   "Accepts": "application/json",
-  "X-CMC_PRO_API_KEY": "0a82fc41-65b8-4902-81da-127a1adbf485",
+  "X-CMC_PRO_API_KEY": "ee22a28c-c8db-4d84-8129-0b2375a00541",
 } 
 session = Session()
 session.headers.update(headers) 
@@ -36,6 +34,7 @@ coin_id_dict = {
   "BTC": 1,
   "XRP": 52,
 }
+
 # Get coin name:
 def get_coin_name(coin):
   coin_id = coin_id_dict.get(coin, False)
@@ -84,8 +83,7 @@ class RemoveForm(FlaskForm):
 def save_coin(name: str, quantity: float, cost: float):
   from ..models import Cryptos
   from ..app import db, engine, session
-  print(f"Crypto bought added {name.data} {quantity.data} {cost.data}")
-
+  print(f"Crypto bought {name.data} {quantity.data} {cost.data}")
   with session() as session:
     new_crypto = Cryptos(
       name=name.data, quantity=quantity.data, cost=cost.data
@@ -97,10 +95,7 @@ def save_coin(name: str, quantity: float, cost: float):
 def edit_coin(name: str, quantity: float, cost: float):
   from ..models import Cryptos
   from ..app import db, engine, session
-  print(f"Crypto sold added {name.data} {quantity.data} {cost.data}") 
-  #new_crypto = session.query(id)
-  #new_crypto.quantity = - new_crypto.quantity
-
+  print(f"Crypto sold {name.data} {quantity.data} {cost.data}") 
   with session() as session:
     new_crypto = Cryptos(
       name=name.data, quantity= quantity.data, cost= -cost.data
@@ -108,3 +103,13 @@ def edit_coin(name: str, quantity: float, cost: float):
     session.add(new_crypto)
     session.commit()
 
+## Define Delete coin function
+#def delete_coin(name: str, quantity: float):
+#  from ..models import Cryptos
+#  from ..app import db, engine, session
+#  print(f"Crypto removed {name.data} {quantity.data}") 
+#  with session() as session:
+#    to_delete_crypto = Cryptos(
+#      name=name.data, quantity= quantity.data)
+#    session.delete(to_delete_crypto)
+#    session.commit()
