@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
+
 <div class="main-container">
     <header class="main-header">
-        <div class="nav">
-        <h1>Crypto Tracker</h1>
+        <a class="close" href="./"><i class="fa-solid fa-close fa-xl"></i></a>
+        <div class="topbar">
+            <h2>Vos gains</h2>
         </div>
     </header>
 
@@ -11,7 +13,6 @@
     <h1>{{ title }}</h1> 
     <img id="chart" src="{{ figure }}">
     </div>
-    
 </div>
 
 {% endblock %}

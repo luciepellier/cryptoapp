@@ -1,24 +1,14 @@
-    <!-- {% if cryptocurrencies %} {# on verifie si la liste existe #}
-        <ul id="list">
-            {% for item in cryptocurrencies %} <!-- on boucle dans la liste cryptocurencies
-                {% if item.cryptocurrency ==  "Bitcoin" %} <!-- condition, on affiche seulement si la crypto est bitcoin
-                    <li>Crypto actif : {{ item.cryptocurrency }} || Valeur : {{ item.value }}</li>
-                {% endif %}
-        </ul>
-            {% endfor %}
-    {% else %}
-        Aucune donnée à afficher
-    {% endif %} -->
-
 {% extends "base.html" %}
 {% block body %}
 
 <div class="main-container">
     <header class="main-header">
         <div class="nav">
-        <h1>Crypto Tracker</h1>
-            <a class="nav-link" href="/ajouter"><i class="fa-solid fa-plus fa-2xl"></i></a>
-            <a class="nav-link" href="/supprimer"><i class="fa-solid fa-pen fa-2xl"></i></a>
+            <h1>Crypto Tracker</h1>
+            <div class="menu">
+                <a class="nav-link" href="/ajouter"><i class="fa-solid fa-plus fa-xl"></i></a>
+                <a class="nav-link" href="/supprimer"><i class="fa-solid fa-pen fa-xl"></i></a>
+            </div>
         </div>
     </header>
     
@@ -26,22 +16,33 @@
         <section class="profit">
             <a href="/solde">{{ profit }} €</a>
         </section>
-
         <section class="coins-index">
+
             <div class="item">
-                <img class="icon" src="https://s2.coinmarketcap.com/static/img/coins/32x32/1.png" alt="Bitcoin">
-                <span>BTC (Bitcoin) </span> <span class="change">{{ btc }} %</span>
+                    <img class="icon" src="https://s2.coinmarketcap.com/static/img/coins/32x32/1.png" alt="Bitcoin">
+                    <span>BTC (Bitcoin)</span>
+                <div class="right">
+                    <span class="change">{{ btc }} %</span>
+                </div>
             </div>
+
             <div class="item">
                 <img class="icon" src="https://s2.coinmarketcap.com/static/img/coins/32x32/1027.png" alt="Ethereum">
-                <span>ETH (Ethereum) </span> <span class="change">{{ eth }} %</span>
+                <span>ETH (Ethereum)</span>
+                <div class="right">
+                    <span class="change">{{ eth }} %</span>
+                </div>
             </div>
+
             <div class="item">
                 <img class="icon" src="https://s2.coinmarketcap.com/static/img/coins/32x32/52.png" alt="XRP">
-                <span>XRP (Ripple) </span> <span class="change">{{ xrp }} %</span>
+                <span>XRP (Ripple)</span>
+                <div class="right">
+                    <span class="change">{{ xrp }} %</span>
+                </div>
             </div>
         </section>
-
     </div>
 </div>
+
 {% endblock %}
