@@ -37,8 +37,8 @@ session = sessionmaker(bind=engine)
 
 with app.app_context():
     db.create_all()
-    # Per validar les taules disponibles
-    print("Current tables", engine.table_names())
+    # Validate available tables
+    #print("Current tables", engine.table_names())
 
 @app.route("/", methods=["GET"])	
 def homepage():
@@ -56,24 +56,18 @@ def add_crypto():
     message = ""
     form = AddForm()
 
-    # when POST manage save in DB
+    # when POST manage save in DB and validate form with method validate()
     if request.method == "POST":
         result = engine.execute("SELECT * FROM cryptos")
         print(result.fetchall())
-
-        # TODO: validate Form
-        # assert form.quantity > 0, "asdasdasd"
         print("POST", form.name, form.quantity, form.cost)
         print (form.validate())
         save_coin(form.name, form.quantity, form.cost)
-        message = f"Votre crypto {form.name.data} a été ajoutée !"
-           
+        message = f"Votre crypto {form.name.data} a été ajoutée !"          
         form.name.data = ""
         form.quantity.data = ""
         form.cost.data = ""
-        # return redirect(url_for('add_crypto'))
-
-    return render_template("add.html", title="Ajouter", form = form, message = message)
+    return render_template("add.html", form = form, message = message)
 
 @app.route("/supprimer", methods=["GET","POST"])	
 def remove_crypto():
@@ -84,66 +78,52 @@ def remove_crypto():
     if request.method == "POST":
         result = engine.execute("SELECT * FROM cryptos")
         print(result.fetchall())
-
-        # TODO: validate Form
-        # assert form.quantity > 0, "asdasdasd"
         print("POST", form.name, form.quantity, form.cost)
         print (form.validate())
         edit_coin(form.name, form.quantity, form.cost)
         message = f"Votre crypto {form.name.data} a été retirée !"
-
-        # if form.validate():
-        #     print("POST")
-        #     crypto = Cryptos.query.filter_by(name=form.name.data).first()
-        #     crypto = Cryptos(name=form.name.data, quantity=form.quantity.data, cost=form.cost.data)
-        #     db.session.add(crypto)
-        #     db.session.commit()
-           
         form.name.data = ""
         form.quantity.data = ""
         form.cost.data = ""
-        # return redirect(url_for('remove_crypto'))
 
-    return render_template("remove.html", title="Supprimer", form=form, message=message)
-
+    return render_template("remove.html", form=form, message=message)
 
 @app.route("/solde", methods=["GET"])	
 def profit_chart():
-    # Create Dataframe Pandas profit
+    
     conn = engine.connect()
-
+    # Create Dataframe Pandas
     historic = pd.read_sql_query("SELECT DATE(date_added) as date, quantity, cost, (quantity * cost) as amount FROM cryptos", conn)
     historic_df = pd.DataFrame(historic)
-
+    # Group dates per day and cumsum 
     totals_per_day = historic_df.groupby(['date']).sum().cumsum()
-
+    # Save and display the plot
     buff = BytesIO()
     figure = totals_per_day[["amount"]].plot().get_figure()
-    figure.savefig(buff, format="png", transparent=True)
+    figure.savefig(buff, format="png", transparent=False)
     data = base64.b64encode(buff.getbuffer()).decode("ascii")
     figure_base64 = f'data:image/png;base64,{data}'
 
-    return render_template("graph.html", title="Solde", figure=figure_base64)
-
-
-    # for row in historic_df.iterrows():
-    #     # print (row)
-    #     print (row[2])
-    #     # print (f"SELECT DATE(date_added) as date, SUM(quantity), SUM(cost), SUM((quantity * cost)) as amount FROM cryptos WHERE DATE(date_added) <= DATE({row['date']}) GROUP BY date")
-    #     totals_per_day = pd.read_sql_query(f"SELECT DATE(date_added) as date, SUM(quantity), SUM(cost), SUM((quantity * cost)) as amount FROM cryptos WHERE DATE(date_added) <= DATE({row['date_added']}) GROUP BY date", conn)
-    #     totals_df = pd.DataFrame(totals_per_day)
-    #     print (totals_df)
-
-
-    # x = [dt.datetime.strptime(d,'%Y-%m-%d %H:%M%S.%X').date() for d in dates]
-    #y = pd.read_sql_query("SELECT (quantity * cost) FROM cryptos", conn)
-    #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
-    #plt.gca().xaxis.set_major_locator(mdates.DayLocator())
-    #plt.plot(x,y)
-    #plt.gcf().autofmt_xdate()
-    # Generate the figure **without using pyplot**.
-
-    # import pudb; pu.db    
+    return render_template("graph.html", figure=figure_base64)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# @app.route("/supprimer", methods=["GET","DELETE"])	
+# def remove_crypto():
+#     message = ""
+#     form = RemoveForm()
+# 
+#     if request.method == "DELETE":
+#         result = engine.execute("SELECT * FROM cryptos")
+#         print(result.fetchall())
+#         print("DELETE", form.name, form.quantity)
+#         print (form.validate())
+#         delete_coin(form.name, form.quantity)
+#         message = f"Votre crypto {form.name.data} a été supprimée !"
+#         form.name.data = ""
+#         form.quantity.data = ""
+#         form.cost.data = ""
+# 
+#     return render_template("remove.html", title="Supprimer", form=form, message=message)
