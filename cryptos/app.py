@@ -90,7 +90,6 @@ def remove_crypto():
 
 @app.route("/solde", methods=["GET"])	
 def profit_chart():
-    
     conn = engine.connect()
     # Create Dataframe Pandas
     historic = pd.read_sql_query("SELECT DATE(date_added) as date, quantity, cost, (quantity * cost) as amount FROM cryptos", conn)
@@ -124,6 +123,5 @@ if __name__ == "__main__":
 #         message = f"Votre crypto {form.name.data} a été supprimée !"
 #         form.name.data = ""
 #         form.quantity.data = ""
-#         form.cost.data = ""
 # 
-#     return render_template("remove.html", title="Supprimer", form=form, message=message)
+#     return render_template("remove.html", form=form, message=message)
