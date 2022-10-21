@@ -17,3 +17,4 @@ def test_post_add_page():
         assert response.status_code == 405
         assert b"Ajouter" not in response.data
 
+
