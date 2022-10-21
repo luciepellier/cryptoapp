@@ -17,7 +17,7 @@ parameters = {
 }
 headers = {
   "Accepts": "application/json",
-  "X-CMC_PRO_API_KEY": "ee22a28c-c8db-4d84-8129-0b2375a00541",
+  "X-CMC_PRO_API_KEY": "3d73188b-6111-4121-b699-d3004c398725",
 } 
 session = Session()
 session.headers.update(headers) 
