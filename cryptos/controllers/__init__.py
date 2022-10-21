@@ -1,5 +1,4 @@
-from colorlog import info
-from requests import Request, Session
+from requests import Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 

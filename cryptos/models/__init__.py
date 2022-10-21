@@ -1,7 +1,6 @@
 from xml.sax.handler import property_declaration_handler
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, BigInteger, String, Float, DateTime, create_engine
 from ..app import db
 

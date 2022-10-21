@@ -1,9 +1,7 @@
 from sqlite3 import connect
-import sqlite3
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from matplotlib import pyplot as plt
-import matplotlib
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker
 import os
