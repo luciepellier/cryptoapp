@@ -12,6 +12,12 @@ bash run.sh
 pip install -r requirements.txt
 ```
 
+### For local development
+
+```sh
+pip install -r requirements-dev.txt
+```
+
 ## Migrations
 
 ```sh
