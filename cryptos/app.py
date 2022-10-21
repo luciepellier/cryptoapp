@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 import matplotlib
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker
+import os
 
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
@@ -22,13 +23,15 @@ import base64
 app = Flask(__name__)
 
 # Add database
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///active_cryptos.db"
+# Review if CRYPTOS_DATABASE_URI is setted, or fallback to default DB
+DATABASE_URI = os.getenv("CRYPTOS_DATABASE_URI", "sqlite:///active_cryptos.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 
 # secret key CSRF
 app.config['SECRET_KEY'] = SECRET_KEY
 
 # Init DB
-engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
+engine = create_engine(DATABASE_URI)
 metadata = MetaData(bind=engine)
 db = SQLAlchemy(app)
 session = sessionmaker(bind=engine)

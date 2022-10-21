@@ -1,8 +1,11 @@
 import pytest
+import os
+
+# Patch DB
+os.environ["CRYPTOS_DATABASE_URI"] = "sqlite:///testing.db"
 from ..app import app
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tests.db"
 
 # Test GET in homepage
 def test_homepage():
