@@ -31,4 +31,3 @@ def test_db_model():
     assert new_crypto.name == "Bitcoin", "Crypto's name doesn't match with DB model"
     assert new_crypto.quantity == 0.005, "Crypto's quantity doesn't match with DB model"
     assert new_crypto.cost == 12000, "Crypto's cost doesn't match with DB model"
-

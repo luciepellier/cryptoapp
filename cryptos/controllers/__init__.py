@@ -4,7 +4,7 @@ import json
 
 from flask_wtf import FlaskForm
 from wtforms import SelectField, FloatField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, InputRequired, NumberRange
 
 # API coinmarketcap connexion
 

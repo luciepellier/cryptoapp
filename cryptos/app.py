@@ -1,6 +1,7 @@
 from sqlite3 import connect
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from wtforms.validators import ValidationError
 from matplotlib import pyplot as plt
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker
@@ -8,7 +9,7 @@ import os
 
 # from flask_migrate import Migrate
 from .config import SECRET_KEY
-from .controllers import AddForm, RemoveForm, save_coin, edit_coin, coin_id_dict, get_coin_name, get_coin_change 
+from .controllers import AddForm, RemoveForm, save_coin, edit_coin, get_coin_change 
 
 # data visualization
 import pandas as pd
@@ -54,15 +55,20 @@ def homepage():
 def add_crypto():
     message = ""
     form = AddForm()
-
-    # when POST manage save in DB and validate form with method validate()
+    # when POST manage save in DB
     if request.method == "POST":
-        result = engine.execute("SELECT * FROM cryptos")
-        print(result.fetchall())
-        print("POST", form.name, form.quantity, form.cost)
-        print (form.validate())
-        save_coin(form.name, form.quantity, form.cost)
-        message = f"Votre crypto {form.name.data} a été ajoutée !"          
+        try:
+            assert form.quantity.data > 0, "La quantité doit être supérieure à zéro"
+            assert form.cost.data > 0, "Le prix doit être supérieur à zéro"
+            # result = engine.execute("SELECT * FROM cryptos")
+            # print(form.validate())
+            # print(result.fetchall())
+            # print("POST", form.name, form.quantity, form.cost)
+            save_coin(form.name, form.quantity, form.cost)
+            message = f"Votre crypto {form.name.data} a été ajoutée !"   
+        except Exception as e:
+            message = f"Réviser l'erreur suivante: '{e}'"
+
         form.name.data = ""
         form.quantity.data = ""
         form.cost.data = ""
@@ -75,16 +81,21 @@ def remove_crypto():
 
     # when POST manage save in DB
     if request.method == "POST":
-        result = engine.execute("SELECT * FROM cryptos")
-        print(result.fetchall())
-        print("POST", form.name, form.quantity, form.cost)
-        print (form.validate())
-        edit_coin(form.name, form.quantity, form.cost)
-        message = f"Votre crypto {form.name.data} a été retirée !"
+        try:
+            assert form.quantity.data > 0, "La quantité doit être supérieure à zéro"
+            assert form.cost.data > 0, "Le prix doit être supérieur à zéro"
+            #result = engine.execute("SELECT * FROM cryptos")
+            #print(result.fetchall())
+            #print("POST", form.name, form.quantity, form.cost)
+            #print (form.validate())
+            edit_coin(form.name, form.quantity, form.cost)
+            message = f"Votre crypto {form.name.data} a été retirée !"
+        except Exception as e:
+            message = f"Réviser l'erreur suivante: '{e}'"
+
         form.name.data = ""
         form.quantity.data = ""
         form.cost.data = ""
-
     return render_template("remove.html", form=form, message=message)
 
 @app.route("/solde", methods=["GET"])	
