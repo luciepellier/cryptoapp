@@ -1,7 +1,6 @@
-from xml.sax.handler import property_declaration_handler
 from datetime import datetime
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, BigInteger, String, Float, DateTime, create_engine
+from sqlalchemy import Column, BigInteger, String, Float, DateTime
 from ..app import db
 
 Base = declarative_base()

@@ -1,1 +1,1 @@
-web: gunicorn cryptos/app.py
+web: gunicorn cryptos.app:app

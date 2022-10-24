@@ -1,7 +1,5 @@
-from sqlite3 import connect
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-from wtforms.validators import ValidationError
 from matplotlib import pyplot as plt
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker
@@ -78,7 +76,6 @@ def add_crypto():
 def remove_crypto():
     message = ""
     form = RemoveForm()
-
     # when POST manage save in DB
     if request.method == "POST":
         try:
@@ -136,19 +133,3 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-# @app.route("/supprimer", methods=["GET","DELETE"])	
-# def remove_crypto():
-#     message = ""
-#     form = RemoveForm()
-# 
-#     if request.method == "DELETE":
-#         result = engine.execute("SELECT * FROM cryptos")
-#         print(result.fetchall())
-#         print("DELETE", form.name, form.quantity)
-#         print (form.validate())
-#         delete_coin(form.name, form.quantity)
-#         message = f"Votre crypto {form.name.data} a été supprimée !"
-#         form.name.data = ""
-#         form.quantity.data = ""
-# 
-#     return render_template("remove.html", form=form, message=message)

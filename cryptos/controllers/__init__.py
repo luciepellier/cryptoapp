@@ -4,7 +4,7 @@ import json
 
 from flask_wtf import FlaskForm
 from wtforms import SelectField, FloatField, SubmitField
-from wtforms.validators import DataRequired, InputRequired, NumberRange
+from wtforms.validators import DataRequired
 
 # API coinmarketcap connexion
 
@@ -81,7 +81,7 @@ class RemoveForm(FlaskForm):
 # Define Save coin function
 def save_coin(name: str, quantity: float, cost: float):
   from ..models import Cryptos
-  from ..app import db, engine, session
+  from ..app import session
   print(f"Crypto bought {name.data} {quantity.data} {cost.data}")
   with session() as session:
     new_crypto = Cryptos(
@@ -93,7 +93,7 @@ def save_coin(name: str, quantity: float, cost: float):
 # Define Edit coin function
 def edit_coin(name: str, quantity: float, cost: float):
   from ..models import Cryptos
-  from ..app import db, engine, session
+  from ..app import session
   print(f"Crypto sold {name.data} {quantity.data} {cost.data}") 
   with session() as session:
     new_crypto = Cryptos(
@@ -101,14 +101,3 @@ def edit_coin(name: str, quantity: float, cost: float):
     )
     session.add(new_crypto)
     session.commit()
-
-## Define Delete coin function
-#def delete_coin(name: str, quantity: float):
-#  from ..models import Cryptos
-#  from ..app import db, engine, session
-#  print(f"Crypto removed {name.data} {quantity.data}") 
-#  with session() as session:
-#    to_delete_crypto = Cryptos(
-#      name=name.data, quantity= quantity.data)
-#    session.delete(to_delete_crypto)
-#    session.commit()

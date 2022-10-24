@@ -13,7 +13,6 @@ def test_app():
     with app.test_client() as test_client:
         os.environ["CRYPTOS_DATABASE_URI"] = "sqlite:///testing.db"
         print(os.environ["CRYPTOS_DATABASE_URI"])
-
         response = test_client.get("/")
         print(response)
         assert response.status_code == 200
@@ -22,7 +21,7 @@ def test_app():
 # Test POST in add page
 def test_post_add_page():
     with app.test_client() as test_client:
-        new_buy_payload = {"name":"BTC", "quantity":2.5, "cost":14500.5}
+        new_buy_payload = {"name":"BTC", "quantity":0.0555, "cost":15555.5}
         response = test_client.post("/ajouter", data=new_buy_payload)
         assert response.status_code == 200
         assert "<h2>Ajouter une transaction</h2>" in response.text
@@ -33,7 +32,7 @@ def test_post_add_page():
 # Test POST in remove page
 def test_post_remove_page():
     with app.test_client() as test_client:
-        new_sell_payload = {"name":"BTC", "quantity":2.5, "cost":14500.5}
+        new_sell_payload = {"name":"BTC", "quantity":0.0555, "cost":15555.5}
         response = test_client.post("/supprimer", data=new_sell_payload)
         assert response.status_code == 200
         assert "<h2>Supprimer un montant</h2>" in response.text
