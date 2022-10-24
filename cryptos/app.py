@@ -107,7 +107,7 @@ def profit_chart():
     buff = BytesIO()
     figure = totals_per_day[["Total_Investissements_Jour"]].plot(kind="bar").get_figure()
     plt.xlabel("Date")
-    plt.ylabel("Solde Total en €")
+    plt.ylabel("Total en €")
     #plt.style.use("dark_background")
     plt.rcParams.update({
     "lines.color": "white",
