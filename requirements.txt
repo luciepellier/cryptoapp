@@ -8,3 +8,4 @@ matplotlib
 pytest
 pip-chill
 requests
+pandas

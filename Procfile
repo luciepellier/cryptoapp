@@ -1,1 +1,1 @@
-web: gunicorn "cryptos.app:app"
+web: gunicorn cryptos.app:app
