@@ -1,3 +1,4 @@
+python==3.10.5
 datetime
 flask-sqlalchemy
 flask-wtf
