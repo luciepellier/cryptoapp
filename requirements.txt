@@ -7,3 +7,4 @@ gunicorn
 matplotlib
 pytest
 pip-chill
+requests
